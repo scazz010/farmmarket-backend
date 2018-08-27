@@ -1,0 +1,14 @@
+Query:
+  type: object
+  config:
+    description: "FarmersMarket ORM repository"
+    fields:
+      farm:
+        type: "Farm"
+        args:
+          id:
+            type: "Int!"
+        resolve: "@=resolver('Farm', [args])"
+      farms:
+        type: "[Farm]"
+        resolve: "@=resolver('Farm', [args])"
