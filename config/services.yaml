@@ -5,6 +5,9 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
 
+imports:
+  - { resource: "event_store_http_api.yaml" }
+
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -18,7 +21,7 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/*'
-        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+        exclude: '../src/{FarmMarket,DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
@@ -28,3 +31,29 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    App\Command\:
+        resource: '../src/Command'
+        tags: ['controller.service_arguments']
+
+    App\Command\RegisterFarmConsole:
+        arguments: ['@prooph_service_bus.farm_market_command_bus']
+
+    Prooph\ServiceBus\CommandBus: ~
+    Prooph\EventStore\EventStore: ~
+
+    App\FarmMarket\Model\Farm\Handler\RegisterFarmHandler:
+      tags:
+        - { name: 'prooph_service_bus.farm_market_command_bus.route_target', message: App\FarmMarket\Model\Farm\Command\RegisterFarm }
+
+
+    App\FarmMarket\Model\Farm\Repository\FarmCollection:
+        alias: App\FarmMarket\Model\Farm\Repository\EventStoreFarmCollection
+#        class: App\FarmMarket\Model\Farm\Repository\EventStoreFarmCollection
+
+
+    prooph_event_store_bus_bridge.todo_event_publisher:
+        class: Prooph\EventStoreBusBridge\EventPublisher
+        arguments: ['@prooph_service_bus.todo_event_bus']
+        public: true
+        tags:
+        - { name: 'prooph_event_store.farm_market_store.plugin' }

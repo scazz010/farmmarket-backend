@@ -1,4 +1,10 @@
 {
+    "beberlei/assert": {
+        "version": "v3.0.0"
+    },
+    "container-interop/container-interop": {
+        "version": "1.2.0"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -65,8 +71,14 @@
     "doctrine/reflection": {
         "version": "v1.0.0"
     },
+    "http-interop/http-factory": {
+        "version": "0.3.0"
+    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
+    },
+    "marc-mabe/php-enum": {
+        "version": "v3.0.1"
     },
     "neomerx/json-api": {
         "version": "v2.0.6"
@@ -101,17 +113,62 @@
     "overblog/graphql-php-generator": {
         "version": "v0.7.3"
     },
+    "paragonie/random_compat": {
+        "version": "v9.99.99"
+    },
+    "prooph/common": {
+        "version": "v4.3.0"
+    },
+    "prooph/event-sourcing": {
+        "version": "v5.6.0"
+    },
+    "prooph/event-store": {
+        "version": "v7.3.8"
+    },
+    "prooph/event-store-bus-bridge": {
+        "version": "v3.3.0"
+    },
+    "prooph/event-store-http-middleware": {
+        "version": "dev-master"
+    },
+    "prooph/event-store-symfony-bundle": {
+        "version": "v0.5.0"
+    },
+    "prooph/pdo-event-store": {
+        "version": "v1.9.0"
+    },
+    "prooph/service-bus": {
+        "version": "v6.2.2"
+    },
+    "prooph/service-bus-symfony-bundle": {
+        "version": "v0.7.0"
+    },
     "psr/cache": {
         "version": "1.0.1"
     },
     "psr/container": {
         "version": "1.0.0"
     },
+    "psr/http-message": {
+        "version": "1.0.x-dev"
+    },
+    "psr/http-server-handler": {
+        "version": "1.0.x-dev"
+    },
+    "psr/http-server-middleware": {
+        "version": "1.0.x-dev"
+    },
     "psr/log": {
         "version": "1.0.2"
     },
     "psr/simple-cache": {
         "version": "1.0.1"
+    },
+    "ramsey/uuid": {
+        "version": "3.8.0"
+    },
+    "roave/security-advisories": {
+        "version": "dev-master"
     },
     "symfony/cache": {
         "version": "v4.1.3"
@@ -233,7 +290,10 @@
     "zendframework/zend-code": {
         "version": "3.3.1"
     },
-    "zendframework/zend-eventmanager": {
-        "version": "3.2.1"
+    "zendframework/zend-stdlib": {
+        "version": "3.2.0"
+    },
+    "zendframework/zend-validator": {
+        "version": "2.10.2"
     }
 }
