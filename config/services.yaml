@@ -48,8 +48,9 @@ services:
 
     App\FarmMarket\Model\Farm\Repository\FarmCollection:
         alias: App\FarmMarket\Model\Farm\Repository\EventStoreFarmCollection
-#        class: App\FarmMarket\Model\Farm\Repository\EventStoreFarmCollection
 
+    App\FarmMarket\Projection\:
+        resource: '../src/FarmMarket/Projection'
 
     prooph_event_store_bus_bridge.todo_event_publisher:
         class: Prooph\EventStoreBusBridge\EventPublisher
