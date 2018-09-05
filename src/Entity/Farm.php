@@ -15,23 +15,23 @@ class Farm {
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
      */
-    private $id;
+    protected $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    protected $name;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $email;
+    protected $email;
 
     /**
      * @ORM\Column(type="point", nullable=true)
      * @var Point
      */
-    private $location;
+    protected $location;
 
     public function getId() {
         return $this->id;
@@ -47,28 +47,5 @@ class Farm {
 
     public function getLocation() : ?Point {
         return $this->location;
-    }
-
-    /**
-     * TODO: remove this from the read model somehow....
-     * @param Point $point
-     */
-    public function setLocation(Point $point) {
-        $this->location = $point;
-    }
-    public function setId(UuidInterface $id) {
-        $this->id = $id;
-    }
-
-    public function setName($name) {
-        $this->name = $name;
-    }
-
-    /**
-     * @param mixed $email
-     */
-    public function setEmail($email): void
-    {
-        $this->email = $email;
     }
 }

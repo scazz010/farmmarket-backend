@@ -4,37 +4,56 @@ declare(strict_types=1);
 
 namespace App\FarmMarket\Projection;
 
-use App\FarmMarket\Model\Farm\Event\FarmLocationWasUpdated;
-use Prooph\Bundle\EventStore\Projection\ReadModelProjection;
-use Prooph\EventStore\Projection\ReadModelProjector;
+use App\Entity\Farm;
+use App\FarmMarket\Event\FarmLocationWasUpdated;
+use App\FarmMarket\Event\FarmWasRegistered;
+use App\FarmMarket\Model\Farm\FarmWriteModel;
+use App\Repository\FarmRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-use App\FarmMarket\Model\Farm\Event\FarmWasRegistered;
-
-/**
- * Class FarmProjection
- */
-final class FarmProjection implements ReadModelProjection
+class FarmProjection implements EventSubscriberInterface
 {
-    public function project(ReadModelProjector $projector): ReadModelProjector
+    /**
+     * @var FarmRepository
+     */
+    private $farmRepository;
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+
+    public function __construct(FarmRepository $farmRepository, EntityManagerInterface $em)
     {
-        $projector->fromStream('event_stream')
-            ->when([
-                FarmWasRegistered::class => function ($state, FarmWasRegistered $event) {
-                    $readModel = $this->readModel();
+        $this->farmRepository = $farmRepository;
+        $this->em = $em;
+    }
 
-                    $readModel->stack('insert', [
-                        'id' => $event->farmId()->toString(),
-                        'name' => $event->name(),
-                        'email' => $event->emailAddress()->toString(),
-                    ]);
-                },
-                FarmLocationWasUpdated::class => function ($state, FarmLocationWasUpdated $event) {
-                    $readModel = $this->readModel();
+    public function onFarmWasRegistered(FarmWasRegistered $event)
+    {
+        $farm = new FarmWriteModel();
+        $farm->setId($event->getFarmId()->toUuid());
+        $farm->setName($event->getName());
+        $farm->setEmail($event->getEmailAddress());
+        $this->em->persist($farm);
+        $this->em->flush();
+    }
 
-                    $readModel->stack('updateLocation', $event->farmId()->toString(), $event->location());
-                }
-            ]);
+    public function onFarmLocationUpdated(FarmLocationWasUpdated $farmLocationWasUpdated)
+    {
+        /** @var Farm $farm */
+        $farm = $this->farmRepository->find($farmLocationWasUpdated->getFarmId()->toString());
+        $farm->setLocation($farmLocationWasUpdated->getLocation());
+        $this->em->flush();
+    }
 
-        return $projector;
+    public static function getSubscribedEvents()
+    {
+        return [
+            \App\FarmMarket\Event\FarmWasRegistered::NAME => 'onFarmWasRegistered',
+            FarmLocationWasUpdated::NAME => [
+                ['onFarmLocationUpdated', 0]
+            ]
+        ];
     }
 }

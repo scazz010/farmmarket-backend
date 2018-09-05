@@ -11,15 +11,6 @@ prooph_event_store:
           aggregate_type: App\FarmMarket\Model\Farm\Farm
           aggregate_translator: prooph_event_sourcing.aggregate_translator
 
-  projection_managers:
-    market_projection_manager:
-      event_store: Prooph\EventStore\Pdo\MySqlEventStore
-      connection: 'doctrine.pdo.connection'
-      projections:
-        farm_projection:
-          projection: App\FarmMarket\Projection\FarmProjection
-          read_model: App\FarmMarket\Projection\FarmReadModel
-
 services:
   Prooph\EventStore\Pdo\MySqlEventStore:
     arguments: ['@prooph_event_store.message_factory', '@doctrine.pdo.connection', '@prooph_event_store.single_stream_strategy']
