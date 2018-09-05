@@ -1,0 +1,15 @@
+# Read the documentation: https://github.com/FriendsOfSymfony/FOSElasticaBundle/blob/master/Resources/doc/setup.md
+fos_elastica:
+    serializer: ~
+    clients:
+        default: { host: elasticsearch, port: 9200 }
+    indexes:
+        app:
+            types:
+                farm:
+                    persistence:
+                        # the driver can be orm, mongodb or phpcr
+                        driver: orm
+                        model: App\Entity\Farm
+                        provider: ~
+                        finder: ~

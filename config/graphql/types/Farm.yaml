@@ -4,5 +4,11 @@ Farm:
     description: "A Farm"
     fields:
       id:
-        type: "Int!"
-        description: "The unique ID of the apartment."
+        type: "Uuid!"
+        description: "The unique ID of the farm."
+      name:
+        type: "String!"
+      email:
+        type: "String!"
+      location:
+        type: "GeoPoint"

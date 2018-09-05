@@ -7,7 +7,7 @@ Query:
         type: "Farm"
         args:
           id:
-            type: "Int!"
+            type: "Uuid"
         resolve: "@=resolver('Farm', [args])"
       farms:
         type: "[Farm]"

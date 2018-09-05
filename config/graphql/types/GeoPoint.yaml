@@ -1,0 +1,6 @@
+GeoPoint:
+  type: object
+  config:
+    fields:
+      lat:
+        type: "Float!"

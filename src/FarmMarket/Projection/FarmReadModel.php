@@ -10,7 +10,12 @@
 declare(strict_types=1);
 namespace App\FarmMarket\Projection;
 
+use App\Entity\Farm;
+use App\Geo\Point;
+use App\Repository\FarmRepository;
 use Doctrine\DBAL\Connection;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Prooph\EventStore\Projection\AbstractReadModel;
 use App\FarmMarket\Projection\Table;
 
@@ -20,9 +25,20 @@ final class FarmReadModel extends AbstractReadModel
      * @var Connection
      */
     private $connection;
-    public function __construct(Connection $connection)
+    /**
+     * @var FarmRepository
+     */
+    private $farmRepository;
+    /**
+     * @var EntityManager
+     */
+    private $em;
+
+    public function __construct(FarmRepository $farmRepository, EntityManagerInterface $em, Connection $connection)
     {
         $this->connection = $connection;
+        $this->farmRepository = $farmRepository;
+        $this->em = $em;
     }
     public function init(): void
     {
@@ -71,10 +87,17 @@ EOT;
     {
         $this->connection->insert(Table::FARM, $data);
     }
-    protected function postTodo(string $assigneeId): void
+    protected function updateLocation(string $farmId, Point $location): void
     {
-        $stmt = $this->connection->prepare(sprintf('UPDATE %s SET open_todos = open_todos + 1 WHERE id = :assignee_id', Table::USER));
-        $stmt->bindValue('assignee_id', $assigneeId);
+        /** @var Farm $farm */
+        $farm = $this->farmRepository->find($farmId);
+        $farm->setLocation($location);
+        $this->em->flush($farm);
+
+        $stmt = $this->connection->prepare(sprintf('UPDATE %s SET location = POINT(:longitude, :latitude) WHERE id = :farm_id', Table::FARM));
+        $stmt->bindValue('farm_id', $farmId);
+        $stmt->bindValue('longitude', $location->getLong());
+        $stmt->bindValue('latitude', $location->getLat());
         $stmt->execute();
     }
     protected function markTodoAsDone(string $assigneeId): void

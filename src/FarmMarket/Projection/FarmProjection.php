@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\FarmMarket\Projection;
 
+use App\FarmMarket\Model\Farm\Event\FarmLocationWasUpdated;
 use Prooph\Bundle\EventStore\Projection\ReadModelProjection;
 use Prooph\EventStore\Projection\ReadModelProjector;
 
@@ -26,6 +27,11 @@ final class FarmProjection implements ReadModelProjection
                         'name' => $event->name(),
                         'email' => $event->emailAddress()->toString(),
                     ]);
+                },
+                FarmLocationWasUpdated::class => function ($state, FarmLocationWasUpdated $event) {
+                    $readModel = $this->readModel();
+
+                    $readModel->stack('updateLocation', $event->farmId()->toString(), $event->location());
                 }
             ]);
 

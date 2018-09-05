@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\FarmMarket\Model\Farm;
 
+use App\FarmMarket\Model\Farm\Event\FarmLocationWasUpdated;
+use App\Geo\Point;
 use Prooph\EventSourcing\AggregateChanged;
 use Prooph\EventSourcing\AggregateRoot;
 
@@ -21,10 +23,16 @@ class Farm extends AggregateRoot
 
     private $email;
 
+    /**
+     * @var Point
+     */
+    private $location;
+
     public static function registerFarm(
         FarmId $farmId,
         $name,
-        EmailAddress $email
+        EmailAddress $email,
+        Point $location=null
     ) : Farm
     {
         $self = new self();
@@ -35,6 +43,10 @@ class Farm extends AggregateRoot
             $email
         ));
 
+        if ($location) {
+            $self->recordThat(FarmLocationWasUpdated::withData($farmId, $location));
+        }
+
         return $self;
     }
 
@@ -43,6 +55,11 @@ class Farm extends AggregateRoot
         $this->farmId = $event->farmId();
         $this->name = $event->name();
         $this->email = $event->emailAddress();
+    }
+
+    protected function whenFarmLocationWasUpdated(FarmLocationWasUpdated $event)
+    {
+        $this->location = $event->location();
     }
 
     protected function aggregateId(): string

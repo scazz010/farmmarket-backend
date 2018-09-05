@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\FarmMarket\Model\Farm\Command;
 
+use App\Geo\Point;
 use Assert\Assertion;
 use Prooph\Common\Messaging\Command;
 use Prooph\Common\Messaging\PayloadConstructable;
@@ -16,12 +17,18 @@ final class RegisterFarm extends Command implements PayloadConstructable
 {
     use PayloadTrait;
 
-    public static function withData(string $farmId, string $name, string $email): RegisterFarm
+    public static function withData(
+        string $farmId,
+        string $name,
+        string $email,
+        Point $location
+    ): RegisterFarm
     {
         return new self([
             'farm_id' => $farmId,
             'name' => $name,
-            'email' => $email
+            'email' => $email,
+            'location' => $location
         ]);
     }
 
@@ -39,6 +46,11 @@ final class RegisterFarm extends Command implements PayloadConstructable
     public function emailAddress(): EmailAddress
     {
         return EmailAddress::fromString($this->payload['email']);
+    }
+
+    public function location(): Point
+    {
+        return $this->payload['location'];
     }
 
     protected function setPayload(array $payload): void

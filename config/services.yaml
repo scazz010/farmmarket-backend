@@ -35,8 +35,11 @@ services:
         resource: '../src/Command'
         tags: ['controller.service_arguments']
 
+    App\FarmMarket\ElasticSearch\:
+        resource: '../src/FarmMarket/ElasticSearch'
+
     App\Command\RegisterFarmConsole:
-        arguments: ['@prooph_service_bus.farm_market_command_bus']
+      arguments: ['@prooph_service_bus.farm_market_command_bus']
 
     Prooph\ServiceBus\CommandBus: ~
     Prooph\EventStore\EventStore: ~
