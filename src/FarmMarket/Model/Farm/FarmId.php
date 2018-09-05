@@ -29,6 +29,11 @@ final class FarmId implements ValueObject
         $this->uuid = $uuid;
     }
 
+    public function toUuid(): UuidInterface
+    {
+        return $this->uuid;
+    }
+
     public function toString(): string
     {
         return $this->uuid->toString();

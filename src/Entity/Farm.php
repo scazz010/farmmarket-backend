@@ -3,6 +3,7 @@
 use App\Geo\Point;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Doctrine\UuidType;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\FarmRepository")
@@ -54,5 +55,20 @@ class Farm {
      */
     public function setLocation(Point $point) {
         $this->location = $point;
+    }
+    public function setId(UuidInterface $id) {
+        $this->id = $id;
+    }
+
+    public function setName($name) {
+        $this->name = $name;
+    }
+
+    /**
+     * @param mixed $email
+     */
+    public function setEmail($email): void
+    {
+        $this->email = $email;
     }
 }

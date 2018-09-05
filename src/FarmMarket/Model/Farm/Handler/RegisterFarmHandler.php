@@ -1,6 +1,7 @@
 <?php namespace App\FarmMarket\Model\Farm\Handler;
 
 use App\FarmMarket\Event\FarmLocationWasUpdated;
+use App\FarmMarket\Event\FarmWasRegistered;
 use App\FarmMarket\Model\Farm\Command\RegisterFarm;
 use App\FarmMarket\Model\Farm\Farm;
 use App\FarmMarket\Model\Farm\Repository\FarmCollection;
@@ -38,6 +39,15 @@ class RegisterFarmHandler
         );
 
         $this->farmCollection->save($farm);
+
+        $this->eventDispatcher->dispatch(
+            FarmWasRegistered::NAME,
+            new FarmWasRegistered(
+                $command->farmId(),
+                $command->name(),
+                $command->emailAddress()->toString()
+            )
+        );
 
         $this->eventDispatcher->dispatch(
             FarmLocationWasUpdated::NAME,
