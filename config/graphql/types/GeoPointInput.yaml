@@ -1,0 +1,8 @@
+GeoPointInput:
+  type: input-object
+  config:
+    fields:
+      latitude:
+        type: "Float"
+      longitude:
+        type: "Float"

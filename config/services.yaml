@@ -21,7 +21,7 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/*'
-        exclude: '../src/{FarmMarket,DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+        exclude: '../src/{GraphQL,FarmMarket,DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
@@ -58,3 +58,6 @@ services:
         public: true
         tags:
         - { name: 'prooph_event_store.farm_market_store.plugin' }
+
+    App\Elastic\FarmFinder:
+        arguments: ['@fos_elastica.finder.app.farm']

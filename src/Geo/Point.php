@@ -37,5 +37,10 @@ class Point
         return $this->lat;
     }
 
+    public function __toString()
+    {
+        return sprintf("%s,%s", $this->lat,  $this->long);
+    }
+
 
 }

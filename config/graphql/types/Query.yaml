@@ -11,4 +11,7 @@ Query:
         resolve: "@=resolver('Farm', [args])"
       farms:
         type: "[Farm]"
-        resolve: "@=resolver('Farm', [args])"
+        args:
+          location:
+            type: "GeoPointInput"
+        resolve: "@=resolver('Farms', [args])"

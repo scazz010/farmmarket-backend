@@ -12,4 +12,5 @@ return [
     Prooph\Bundle\ServiceBus\ProophServiceBusBundle::class => ['all' => true],
     Prooph\Bundle\EventStore\ProophEventStoreBundle::class => ['all' => true],
     FOS\ElasticaBundle\FOSElasticaBundle::class => ['all' => true],
+    JMS\SerializerBundle\JMSSerializerBundle::class => ['all' => true],
 ];

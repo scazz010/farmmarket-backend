@@ -6,6 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "friendsofsymfony/elastica-bundle": "^5.1@dev",
+        "jms/serializer-bundle": "^3.0@dev",
         "neomerx/json-api": "^2.0",
         "overblog/graphql-bundle": "^0.11.4",
         "prooph/event-sourcing": "^5.6",

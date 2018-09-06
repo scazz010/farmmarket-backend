@@ -4,3 +4,5 @@ GeoPoint:
     fields:
       lat:
         type: "Float!"
+      long:
+        type: "Float!"
