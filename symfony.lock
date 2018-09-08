@@ -2,6 +2,9 @@
     "beberlei/assert": {
         "version": "v3.0.0"
     },
+    "behat/transliterator": {
+        "version": "v1.2.0"
+    },
     "container-interop/container-interop": {
         "version": "1.2.0"
     },
@@ -83,62 +86,32 @@
             "ref": "3f73f240ee0c3719e89f1c994ce66904e2ef84f6"
         }
     },
+    "guzzlehttp/guzzle": {
+        "version": "6.3-dev"
+    },
+    "guzzlehttp/promises": {
+        "version": "1.4-dev"
+    },
+    "guzzlehttp/psr7": {
+        "version": "1.5-dev"
+    },
     "guzzlehttp/ringphp": {
         "version": "1.1-dev"
     },
     "guzzlehttp/streams": {
         "version": "3.0-dev"
     },
-    "hoa/compiler": {
-        "version": "3.x-dev"
-    },
-    "hoa/consistency": {
-        "version": "1.17.05.02"
-    },
-    "hoa/event": {
-        "version": "1.17.01.13"
-    },
-    "hoa/exception": {
-        "version": "1.17.01.16"
-    },
-    "hoa/file": {
-        "version": "1.17.07.11"
-    },
-    "hoa/iterator": {
-        "version": "2.17.01.10"
-    },
-    "hoa/math": {
-        "version": "1.x-dev"
-    },
-    "hoa/protocol": {
-        "version": "1.17.01.14"
-    },
-    "hoa/regex": {
-        "version": "1.17.01.13"
-    },
-    "hoa/stream": {
-        "version": "1.17.02.21"
-    },
-    "hoa/ustring": {
-        "version": "4.17.01.16"
-    },
-    "hoa/visitor": {
-        "version": "2.17.01.16"
-    },
-    "hoa/zformat": {
-        "version": "1.x-dev"
-    },
-    "http-interop/http-factory": {
-        "version": "0.3.0"
-    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
     "jms/metadata": {
-        "version": "2.x-dev"
+        "version": "1.6.0"
+    },
+    "jms/parser-lib": {
+        "version": "1.0.0"
     },
     "jms/serializer": {
-        "version": "2.0-dev"
+        "version": "1.13.0"
     },
     "jms/serializer-bundle": {
         "version": "2.0",
@@ -191,6 +164,12 @@
     "paragonie/random_compat": {
         "version": "v9.99.99"
     },
+    "phpcollection/phpcollection": {
+        "version": "0.5.0"
+    },
+    "phpoption/phpoption": {
+        "version": "1.5.0"
+    },
     "prooph/common": {
         "version": "v4.3.0"
     },
@@ -202,9 +181,6 @@
     },
     "prooph/event-store-bus-bridge": {
         "version": "v3.3.0"
-    },
-    "prooph/event-store-http-middleware": {
-        "version": "dev-master"
     },
     "prooph/event-store-symfony-bundle": {
         "version": "v0.5.0"
@@ -227,12 +203,6 @@
     "psr/http-message": {
         "version": "1.0.x-dev"
     },
-    "psr/http-server-handler": {
-        "version": "1.0.x-dev"
-    },
-    "psr/http-server-middleware": {
-        "version": "1.0.x-dev"
-    },
     "psr/log": {
         "version": "1.0.2"
     },
@@ -253,9 +223,6 @@
     },
     "react/promise": {
         "version": "2.x-dev"
-    },
-    "roave/security-advisories": {
-        "version": "dev-master"
     },
     "ruflin/elastica": {
         "version": "6.0.x-dev"
@@ -308,6 +275,9 @@
             "ref": "e921bdbfe20cdefa3b82f379d1cd36df1bc8d115"
         }
     },
+    "symfony/form": {
+        "version": "v4.1.4"
+    },
     "symfony/framework-bundle": {
         "version": "3.3",
         "recipe": {
@@ -325,6 +295,9 @@
     },
     "symfony/inflector": {
         "version": "v4.1.3"
+    },
+    "symfony/intl": {
+        "version": "v4.1.4"
     },
     "symfony/maker-bundle": {
         "version": "1.0",
@@ -350,6 +323,9 @@
     "symfony/orm-pack": {
         "version": "v1.0.5"
     },
+    "symfony/polyfill-intl-icu": {
+        "version": "v1.9.0"
+    },
     "symfony/polyfill-mbstring": {
         "version": "v1.9.0"
     },
@@ -367,6 +343,9 @@
     },
     "symfony/serializer": {
         "version": "4.1.x-dev"
+    },
+    "symfony/templating": {
+        "version": "v4.1.4"
     },
     "symfony/twig-bridge": {
         "version": "v4.1.3"
@@ -386,11 +365,23 @@
     "twig/twig": {
         "version": "v2.5.0"
     },
+    "vich/uploader-bundle": {
+        "version": "1.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.5",
+            "ref": "c4f5755b37fb65b9c6a3cbdae91205c15a137ed4"
+        }
+    },
     "webonyx/graphql-php": {
         "version": "v0.12.5"
     },
     "zendframework/zend-code": {
         "version": "3.3.1"
+    },
+    "zendframework/zend-eventmanager": {
+        "version": "3.2.1"
     },
     "zendframework/zend-stdlib": {
         "version": "3.2.0"

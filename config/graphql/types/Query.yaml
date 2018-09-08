@@ -15,3 +15,18 @@ Query:
           location:
             type: "GeoPointInput"
         resolve: "@=resolver('Farms', [args])"
+
+Mutation:
+  type: object
+  config:
+    fields:
+      singleUpload:
+        type: String!
+        resolve: "@=mutation('upload_image', [args['file']])"
+        args:
+          file: ImageUpload!
+      multipleUpload:
+        type: '[String!]'
+        resolve: '@=[args["files"][0].getBasename(), args["files"][1].getBasename()]'
+        args:
+          files: '[ImageUpload!]!'
