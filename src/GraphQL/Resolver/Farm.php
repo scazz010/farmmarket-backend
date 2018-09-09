@@ -5,6 +5,8 @@ use App\Repository\FarmRepository;
 use Overblog\GraphQLBundle\Definition\Argument;
 use Overblog\GraphQLBundle\Definition\Resolver\AliasedInterface;
 use Overblog\GraphQLBundle\Definition\Resolver\ResolverInterface;
+use Symfony\Bundle\SecurityBundle\Security\FirewallContext;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class Farm implements ResolverInterface, AliasedInterface
 {

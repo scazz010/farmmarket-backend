@@ -65,3 +65,9 @@ services:
 
     App\Elastic\FarmFinder:
         arguments: ['@fos_elastica.finder.app.farm']
+
+    my.oauth_aware.user_provider.service:
+        class: HWI\Bundle\OAuthBundle\Security\Core\User\FOSUBUserProvider
+        arguments:
+          - '@fos_user.user_manager'
+          - ['pass properties as array']

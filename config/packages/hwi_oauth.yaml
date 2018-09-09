@@ -1,0 +1,14 @@
+hwi_oauth:
+    # list of names of the firewalls in which this bundle is active, this setting MUST be set
+    firewall_names: [secured_area]
+
+    # https://github.com/hwi/HWIOAuthBundle/blob/master/Resources/doc/2-configuring_resource_owners.md
+    resource_owners:
+        auth0:
+            type:   oauth2
+            class: 'App\Security\Auth0ResourceOwner'
+            client_id: "2CEV2jdJCpqp5fwoa3nG99rnfiXl5VgQ"
+            client_secret: '%env(AUTH0_SECRET)%'
+            base_url: 'https://farmmarket.eu.auth0.com'
+            redirect_uri: 'http://symfony.localhost:808/index.php/auth0/callback'
+            scope: "openid profile"

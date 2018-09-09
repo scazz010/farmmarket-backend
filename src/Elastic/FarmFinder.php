@@ -9,6 +9,7 @@ use Elastica\Query\BoolQuery;
 use Elastica\Query\GeoBoundingBox;
 use Elastica\Query\GeoDistance;
 use FOS\ElasticaBundle\Finder\FinderInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class FarmFinder
 {
@@ -17,9 +18,10 @@ class FarmFinder
      */
     private $farmFinder;
 
-    public function __construct(FinderInterface $farmFinder)
+    public function __construct(FinderInterface $farmFinder, TokenStorageInterface $x)
     {
         $this->farmFinder = $farmFinder;
+        var_dump($x->getToken()->getUser()); exit;
     }
 
     public function findFarmsNearPoint(Point $point)

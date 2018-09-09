@@ -11,13 +11,14 @@ use Prooph\Common\Messaging\PayloadConstructable;
 use Prooph\Common\Messaging\PayloadTrait;
 
 use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 final class UpdateFarmPreviewImage extends Command implements PayloadConstructable
 {
     use PayloadTrait;
 
-    public static function withData(string $farmId, Uuid $imageId, UploadedFile $image) : UpdateFarmPreviewImage
+    public static function withData(string $farmId, UuidInterface $imageId, UploadedFile $image) : UpdateFarmPreviewImage
     {
         return new self([
             'farm_id' => $farmId,
