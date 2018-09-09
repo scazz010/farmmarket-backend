@@ -18,7 +18,7 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/*'
-        exclude: '../src/{GraphQL,FarmMarket,DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+        exclude: '../src/{FarmMarket,DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
@@ -40,7 +40,11 @@ services:
 
     App\FarmMarket\Model\Farm\Handler\RegisterFarmHandler:
       tags:
-        - { name: 'prooph_service_bus.farm_market_command_bus.route_target', message: App\FarmMarket\Model\Farm\Command\RegisterFarm }
+        - { name: 'prooph_service_bus.farm_market_command_bus.route_target', message_detection: true }
+
+    App\FarmMarket\Model\Image\Handler\UploadImageHandler:
+      tags:
+        - { name: 'prooph_service_bus.farm_market_command_bus.route_target', message_detection: true }
 
 
     App\FarmMarket\Model\Farm\Repository\FarmCollection:

@@ -21,12 +21,13 @@ Mutation:
   config:
     fields:
       singleUpload:
-        type: String!
+        type: UploadedFile!
         resolve: "@=mutation('upload_image', [args['file']])"
         args:
-          file: ImageUpload!
+          file:
+            type: ImageUpload!
       multipleUpload:
-        type: '[String!]'
+        type: '[UploadedFile!]'
         resolve: '@=[args["files"][0].getBasename(), args["files"][1].getBasename()]'
         args:
           files: '[ImageUpload!]!'

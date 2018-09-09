@@ -2,9 +2,11 @@
 
 namespace App\Images;
 
+use Symfony\Component\HttpFoundation\File\File;
+
 interface ImageManipulator {
 
-    public function asThumbnail();
+    public function asThumbnail(File $originalImage);
 
 
 }
