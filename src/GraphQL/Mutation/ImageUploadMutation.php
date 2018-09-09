@@ -1,5 +1,7 @@
 <?php namespace App\GraphQL\Mutation;
 
+use App\FarmMarket\Model\Farm\Command\UpdateFarmPreviewImage;
+use App\FarmMarket\Model\Farm\FarmId;
 use App\FarmMarket\Model\Image\Command\UploadImage;
 use Overblog\GraphQLBundle\Definition\Resolver\AliasedInterface;
 use Overblog\GraphQLBundle\Definition\Resolver\MutationInterface;
@@ -51,10 +53,26 @@ class ImageUploadMutation implements MutationInterface, AliasedInterface
         ];
     }
 
+    public function updateFarmPreviewImage(string $farmId, UploadedFile $file)
+    {
+        $updateFarmPreviewImage = UpdateFarmPreviewImage::withData(
+            $farmId,
+            Uuid::uuid4(),
+            $file
+        );
+        $this->commandBus->dispatch($updateFarmPreviewImage);
+        $image = $this->imageRepository->find($updateFarmPreviewImage->imageId());
+        return [
+            'id' => $image->id(),
+            'url' => $this->uploaderHelper->asset($image, 'imageFile')
+        ];
+    }
+
     public static function getAliases()
     {
         return [
-            'uploadImage' => 'upload_image'
+            'uploadImage' => 'upload_image',
+            'updateFarmPreviewImage' => 'update_farm_preview_image'
         ];
     }
 }

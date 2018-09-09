@@ -46,6 +46,9 @@ services:
       tags:
         - { name: 'prooph_service_bus.farm_market_command_bus.route_target', message_detection: true }
 
+    App\FarmMarket\Model\Farm\Handler\UpdateFarmPreviewImageHandler:
+      tags:
+        - { name: 'prooph_service_bus.farm_market_command_bus.route_target', message_detection: true }
 
     App\FarmMarket\Model\Farm\Repository\FarmCollection:
         alias: App\FarmMarket\Model\Farm\Repository\EventStoreFarmCollection

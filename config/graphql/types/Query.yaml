@@ -26,6 +26,18 @@ Mutation:
         args:
           file:
             type: ImageUpload!
+          farmId:
+            type: String!
+
+      updateFarmPreviewImage:
+        type: UploadedFile!
+        resolve: "@=mutation('update_farm_preview_image', [args['farmId'], args['file']])"
+        args:
+          file:
+            type: ImageUpload!
+          farmId:
+            type: String!
+
       multipleUpload:
         type: '[UploadedFile!]'
         resolve: '@=[args["files"][0].getBasename(), args["files"][1].getBasename()]'

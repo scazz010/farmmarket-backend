@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace App\FarmMarket\Model\Farm;
 
+use App\Entity\Image;
 use App\FarmMarket\Model\Farm\Event\FarmLocationWasUpdated;
+use App\FarmMarket\Model\Farm\Event\FarmPreviewImageWasUpdated;
 use App\Geo\Point;
 use Prooph\EventSourcing\AggregateChanged;
 use Prooph\EventSourcing\AggregateRoot;
 
 use App\FarmMarket\Model\EmailAddress;
 use App\FarmMarket\Model\Farm\Event\FarmWasRegistered;
+use Symfony\Component\HttpFoundation\File\File;
 
 class Farm extends AggregateRoot
 {
@@ -50,6 +53,11 @@ class Farm extends AggregateRoot
         return $self;
     }
 
+    public function updatePreviewImage(Image $previewImage)
+    {
+        $this->recordThat(FarmPreviewImageWasUpdated::toImage($this->farmId, $previewImage->id()));
+    }
+
     protected function whenFarmWasRegistered(FarmWasRegistered $event)
     {
         $this->farmId = $event->farmId();
@@ -60,6 +68,11 @@ class Farm extends AggregateRoot
     protected function whenFarmLocationWasUpdated(FarmLocationWasUpdated $event)
     {
         $this->location = $event->location();
+    }
+
+    protected function whenFarmPreviewImageWasUpdated(FarmPreviewImageWasUpdated $event)
+    {
+
     }
 
     protected function aggregateId(): string

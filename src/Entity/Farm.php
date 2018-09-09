@@ -37,12 +37,15 @@ class Farm {
      */
     protected $location;
 
+    /**
+     * One Farm has One Preview Image.
+     * @ORM\OneToOne(targetEntity="Image")
+     * @ORM\JoinColumn(name="preview_image_id", referencedColumnName="id")
+     */
+    protected $previewImage;
+
     public function getId() {
         return $this->id;
-    }
-
-    public function getIdAsString() {
-        return "wooo";
     }
 
     public function getName() {
@@ -51,6 +54,10 @@ class Farm {
 
     public function getEmail() {
         return $this->email;
+    }
+
+    public function setPreviewImage(Image $image) {
+        $this->previewImage = $image;
     }
 
     /**

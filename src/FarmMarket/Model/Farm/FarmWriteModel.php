@@ -2,6 +2,7 @@
 
 namespace App\FarmMarket\Model\Farm;
 
+use App\Entity\Image;
 use App\Geo\Point;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Doctrine\UuidType;
@@ -23,6 +24,11 @@ class FarmWriteModel extends \App\Entity\Farm
     public function setName($name) {
         $this->name = $name;
     }
+
+    public function setPreviewImage(Image $image) {
+        $this->previewImage = $image;
+    }
+
 
     /**
      * @param mixed $email
