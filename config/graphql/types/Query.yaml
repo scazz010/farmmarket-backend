@@ -16,7 +16,7 @@ Query:
             type: "GeoPointInput"
         resolve: "@=resolver('Farms', [args])"
       me:
-        type: "User"
+        type: "Farmer"
         resolve: "@=resolver('Profile', [args])"
         access: '@=isAuthenticated()'
 

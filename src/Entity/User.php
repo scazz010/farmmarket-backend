@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use FOS\UserBundle\Model\User as FOSUBUser;
 use Doctrine\ORM\Mapping as ORM;
+use Money\Currency;
+use Money\Money;
 
 /**
  * @ORM\Table(name="users")
@@ -66,5 +68,10 @@ class User extends FOSUBUser
     public function setFamilyName($familyName): void
     {
         $this->familyName = $familyName;
+    }
+
+    public function getFarm(): ?Farm
+    {
+        return null;
     }
 }

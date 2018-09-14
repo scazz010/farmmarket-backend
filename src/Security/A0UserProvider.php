@@ -4,10 +4,12 @@
 namespace App\Security;
 
 use App\Entity\User;
+use App\FarmMarket\Model\Farmer\Command\RegisterFarmerCommand;
 use Auth0\JWTAuthBundle\Security\Auth0Service;
 use Auth0\JWTAuthBundle\Security\Core\JWTUserProviderInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
+use Prooph\ServiceBus\CommandBus;
 use Symfony\Component\Intl\Exception\NotImplementedException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -25,30 +27,33 @@ class A0UserProvider implements JWTUserProviderInterface
      * @var EntityManagerInterface
      */
     private $em;
+    /**
+     * @var CommandBus
+     */
+    private $commandBus;
 
-    public function __construct(Auth0Service $auth0Service, UserManagerInterface $userManager, EntityManagerInterface $em) {
+    public function __construct(Auth0Service $auth0Service, UserManagerInterface $userManager, CommandBus $commandBus) {
         $this->auth0Service = $auth0Service;
         $this->userManager = $userManager;
-        $this->em = $em;
+        $this->commandBus = $commandBus;
     }
 
     public function loadUserByJWT($jwt) {
-        // you can fetch the user profile from the auth0 api
-        // or from your database
-
          $data = $this->auth0Service->getUserProfileByA0UID($jwt->token,$jwt->sub);
 
          /** @var User $user */
          $user = $this->userManager->findUserBy(['id' => $jwt->sub]);
          if (!$user) {
-             $user = $this->userManager->createUser();
-             $user->setId($jwt->sub);
-             $user->setEnabled(true);
-             $user->setEmail($data['email']);
-             $user->setUsername($data['nickname']);
-             $user->setGivenName($data['given_name']);
-             $user->setFamilyName($data['family_name']);
-             $this->em->persist($user);
+             $registerFarmerCommand = RegisterFarmerCommand::withData(
+                 $jwt->sub,
+                 $data['given_name'],
+                 $data['family_name'],
+                 $data['email']
+             );
+
+             $this->commandBus->dispatch($registerFarmerCommand);
+
+             //$user->setUsername($data['nickname']);
          }
 
         return $user;

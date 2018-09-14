@@ -1,0 +1,4 @@
+Money:
+  type: custom-scalar
+  config:
+    scalarType: '@=newObject("App\\GraphQL\\Type\\MoneyType")'

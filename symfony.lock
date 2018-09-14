@@ -149,6 +149,9 @@
     "marc-mabe/php-enum": {
         "version": "v3.0.1"
     },
+    "moneyphp/money": {
+        "version": "v3.1.3"
+    },
     "nelmio/cors-bundle": {
         "version": "1.5",
         "recipe": {

@@ -11,6 +11,7 @@ use App\FarmMarket\Event\FarmWasRegistered;
 use App\FarmMarket\Model\Farm\FarmWriteModel;
 use App\Repository\FarmRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Money\Money;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class FarmProjection implements EventSubscriberInterface
@@ -23,19 +24,32 @@ class FarmProjection implements EventSubscriberInterface
      * @var EntityManagerInterface
      */
     private $em;
+    /**
+     * @var FarmWriteModel
+     */
+    private $farmWriter;
 
-    public function __construct(FarmRepository $farmRepository, EntityManagerInterface $em)
+    public function __construct(FarmRepository $farmRepository, EntityManagerInterface $em, FarmWriteModel $farmWriter)
     {
         $this->farmRepository = $farmRepository;
         $this->em = $em;
+        $this->farmWriter = $farmWriter;
     }
 
     public function onFarmWasRegistered(FarmWasRegistered $event)
     {
-        $farm = new FarmWriteModel();
-        $farm->setId($event->getFarmId()->toUuid());
+        /** @var FarmWriteModel $farm */
+        $farm = $this->farmWriter::registerFarm(
+            $event->getFarmId()->toUuid(),
+            $event->getName()
+        );
+
         $farm->setName($event->getName());
         $farm->setEmail($event->getEmailAddress());
+        $farm->setTotalSales(0);
+        $farm->setTotalCustomers(0);
+        $farm->setTotalRevenue(Money::GBP(0));
+
         $this->em->persist($farm);
         $this->em->flush();
     }

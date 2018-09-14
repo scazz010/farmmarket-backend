@@ -19,6 +19,7 @@ final class RegisterFarm extends Command implements PayloadConstructable
 
     public static function withData(
         string $farmId,
+        string $farmerId,
         string $name,
         string $email,
         Point $location
@@ -26,6 +27,7 @@ final class RegisterFarm extends Command implements PayloadConstructable
     {
         return new self([
             'farm_id' => $farmId,
+            'farmer_id' => $farmerId,
             'name' => $name,
             'email' => $email,
             'location' => $location
