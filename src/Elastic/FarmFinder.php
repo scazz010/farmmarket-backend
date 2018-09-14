@@ -21,7 +21,7 @@ class FarmFinder
     public function __construct(FinderInterface $farmFinder, TokenStorageInterface $x)
     {
         $this->farmFinder = $farmFinder;
-        var_dump($x->getToken()->getUser()); exit;
+        //var_dump($x->getToken()->getUser()); exit;
     }
 
     public function findFarmsNearPoint(Point $point)

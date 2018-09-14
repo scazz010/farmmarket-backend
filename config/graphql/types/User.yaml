@@ -1,0 +1,11 @@
+User:
+  type: object
+  config:
+    description: "A users profile"
+    fields:
+      given_name:
+        type: "String"
+      family_name:
+        type: "String"
+      farm:
+        type: "Farm"

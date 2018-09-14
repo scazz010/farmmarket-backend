@@ -12,3 +12,14 @@ Farm:
         type: "String!"
       location:
         type: "GeoPoint"
+
+      sales:
+        type: "[Sale]"
+
+      totalSales:
+        type: "Int"
+      totalCustomers:
+        type: "Int"
+      totalRevenue:
+        type: "String"
+

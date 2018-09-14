@@ -1,0 +1,6 @@
+Sale:
+  type: "object"
+  config:
+    fields:
+      id:
+        type: "Uuid!"

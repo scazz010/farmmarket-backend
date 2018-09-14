@@ -15,6 +15,10 @@ Query:
           location:
             type: "GeoPointInput"
         resolve: "@=resolver('Farms', [args])"
+      me:
+        type: "User"
+        resolve: "@=resolver('Profile', [args])"
+        access: '@=isAuthenticated()'
 
 Mutation:
   type: object

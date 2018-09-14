@@ -1,24 +1,42 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
+        fos_userbundle:
+            id: fos_user.user_provider.username_email
         hwi:
             id: hwi_oauth.user.provider
+
+        a0:
+            id: a0_user_provider
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
+        auth_area:
+            stateless: true
+            simple_preauth:
+                authenticator: jwt_auth.jwt_authenticator
+                provider: a0
+
         secured_area:
             anonymous: ~
+
             oauth:
                 resource_owners:
                     auth0: "/auth0/callback"
                 login_path: /login
                 use_forward: false
                 failure_path: /login
+                provider: fos_userbundle
 
                 oauth_user_provider:
-                    service: hwi_oauth.user.provider
+                    service: fos_user_provider
+
+            logout:
+                path:   /auth0/logout
+                target: /
 
 
             # activate different ways to authenticate
