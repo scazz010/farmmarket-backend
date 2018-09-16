@@ -21,6 +21,7 @@ services:
         resource: '../src/*'
         exclude: '../src/{FarmMarket/Model/Farm/Repository,DependencyInjection,Migrations,Tests,Kernel.php}'
 
+
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
     App\Controller\:
@@ -36,7 +37,6 @@ services:
     App\Command\RegisterFarmConsole:
       arguments: ['@prooph_service_bus.farm_market_command_bus']
 
-    Prooph\ServiceBus\CommandBus: ~
     Prooph\EventStore\EventStore: ~
 
     App\FarmMarket\Model\Farm\Handler\RegisterFarmHandler:
@@ -53,6 +53,11 @@ services:
 
     App\FarmMarket\Model\Farm\Repository\FarmCollection:
         alias: App\FarmMarket\Model\Farm\Repository\EventStoreFarmCollection
+    Prooph\ServiceBus\CommandBus:
+        alias: 'prooph_service_bus.farm_market_command_bus'
+
+    Geocoder\Plugin\PluginProvider:
+        alias: bazinga_geocoder.provider.farm_market
 
     App\FarmMarket\Projection\:
         resource: '../src/FarmMarket/Projection'

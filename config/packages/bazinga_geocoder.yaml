@@ -1,0 +1,8 @@
+# See the docs at https://github.com/geocoder-php/BazingaGeocoderBundle
+bazinga_geocoder:
+    providers:
+        farm_market:
+            factory: Bazinga\GeocoderBundle\ProviderFactory\NominatimFactory
+            options:
+                user_agent: "FarmMarket"
+

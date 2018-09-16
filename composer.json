@@ -8,6 +8,8 @@
         "auth0/jwt-auth-bundle": "^3.1",
         "friendsofsymfony/elastica-bundle": "^5.0",
         "friendsofsymfony/user-bundle": "^2.1",
+        "geocoder-php/google-maps-provider": "^4.2",
+        "geocoder-php/nominatim-provider": "^5.0",
         "guzzlehttp/guzzle": "^6.3",
         "guzzlehttp/psr7": "^1.4",
         "hwi/oauth-bundle": "^0.6.3",
@@ -32,6 +34,7 @@
         "symfony/serializer": "*",
         "symfony/yaml": "*",
         "vich/uploader-bundle": "^1.8",
+        "willdurand/geocoder-bundle": "^5.2",
         "zendframework/zend-validator": "^2.10"
     },
     "require-dev": {

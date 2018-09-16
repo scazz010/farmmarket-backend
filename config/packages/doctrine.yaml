@@ -20,6 +20,7 @@ doctrine:
             point: App\Geo\Type\PointType
         mapping_types:
             point: string
+
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
         naming_strategy: doctrine.orm.naming_strategy.underscore
@@ -31,4 +32,8 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
-
+            Money:
+                is_bundle: false
+                type: yml
+                dir: "%kernel.root_dir%/../Resources/Money/doctrine"
+                prefix: Money

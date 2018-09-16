@@ -9,7 +9,7 @@ use Money\Money;
 
 /**
  * @ORM\Table(name="users")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\FarmerRepository")
  */
 class User extends FOSUBUser
 {
@@ -30,6 +30,13 @@ class User extends FOSUBUser
      * @ORM\Column(name="family_name", type="string", length=255, nullable=true)
      */
     private $familyName;
+
+    /**
+     * One Farmer has One Farm.
+     * @ORM\OneToOne(targetEntity="Farm", mappedBy="farmer")
+     */
+    private $farm;
+
 
     /**
      * @return mixed
@@ -72,6 +79,6 @@ class User extends FOSUBUser
 
     public function getFarm(): ?Farm
     {
-        return null;
+        return $this->farm;
     }
 }

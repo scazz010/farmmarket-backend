@@ -33,6 +33,7 @@ class Farm extends AggregateRoot
 
     public static function registerFarm(
         FarmId $farmId,
+        string $userId,
         $name,
         EmailAddress $email,
         Point $location=null
@@ -42,6 +43,7 @@ class Farm extends AggregateRoot
 
         $self->recordThat(FarmWasRegistered::withData(
             $farmId,
+            $userId,
             $name,
             $email
         ));

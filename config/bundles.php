@@ -20,4 +20,5 @@ return [
     FOS\UserBundle\FOSUserBundle::class => ['all' => true],
     Auth0\JWTAuthBundle\JWTAuthBundle::class => ['all' => true],
     Nelmio\CorsBundle\NelmioCorsBundle::class => ['all' => true],
+    Bazinga\GeocoderBundle\BazingaGeocoderBundle::class => ['all' => true],
 ];

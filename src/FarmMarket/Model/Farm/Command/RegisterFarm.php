@@ -6,6 +6,7 @@ namespace App\FarmMarket\Model\Farm\Command;
 
 use App\Geo\Point;
 use Assert\Assertion;
+use PhpParser\Node\Scalar\String_;
 use Prooph\Common\Messaging\Command;
 use Prooph\Common\Messaging\PayloadConstructable;
 use Prooph\Common\Messaging\PayloadTrait;
@@ -40,6 +41,11 @@ final class RegisterFarm extends Command implements PayloadConstructable
         return FarmId::fromString($this->payload['farm_id']);
     }
 
+    public function farmerId(): String
+    {
+        return $this->payload['farmer_id'];
+    }
+
     public function name(): string
     {
         return $this->payload['name'];
@@ -59,6 +65,9 @@ final class RegisterFarm extends Command implements PayloadConstructable
     {
         Assertion::keyExists($payload, 'farm_id');
         Assertion::uuid($payload['farm_id']);
+
+        Assertion::keyExists($payload, 'farmer_id');
+
         Assertion::keyExists($payload, 'name');
         Assertion::string($payload['name']);
         Assertion::keyExists($payload, 'email');

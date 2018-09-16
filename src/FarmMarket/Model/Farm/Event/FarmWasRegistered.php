@@ -26,10 +26,11 @@ final class FarmWasRegistered extends AggregateChanged
     private $emailAddress;
 
 
-    public static function withData(FarmId $farmId, $name, EmailAddress $emailAddress): FarmWasRegistered
+    public static function withData(FarmId $farmId, string $farmerId, $name, EmailAddress $emailAddress): FarmWasRegistered
     {
         /** @var self $event */
         $event = self::occur($farmId->toString(), [
+            'farmerId' => $farmerId,
             'name' => $name,
             'email' => $emailAddress->toString(),
         ]);

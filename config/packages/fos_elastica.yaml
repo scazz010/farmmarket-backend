@@ -2,18 +2,21 @@
 fos_elastica:
     serializer:
       serializer: jms_serializer
+      callback_class: FOS\ElasticaBundle\Serializer\Callback
     clients:
         default: { host: elasticsearch, port: 9200 }
     indexes:
         app:
             types:
                  farm:
+                     serializer:
+                         groups: [elastica]
                      properties:
                          id: { type: text }
                          location: { type: geo_point }
                      persistence:
                         # the driver can be orm, mongodb or phpcr
                         driver: orm
-                        model: App\FarmMarket\Model\Farm\FarmWriteModel
+                        model: App\Entity\Farm
                         provider: ~
                         finder: ~

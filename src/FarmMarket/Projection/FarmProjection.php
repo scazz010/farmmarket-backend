@@ -41,14 +41,10 @@ class FarmProjection implements EventSubscriberInterface
         /** @var FarmWriteModel $farm */
         $farm = $this->farmWriter::registerFarm(
             $event->getFarmId()->toUuid(),
-            $event->getName()
+            $event->getName(),
+            $event->getEmailAddress(),
+            $event->getFarmer()
         );
-
-        $farm->setName($event->getName());
-        $farm->setEmail($event->getEmailAddress());
-        $farm->setTotalSales(0);
-        $farm->setTotalCustomers(0);
-        $farm->setTotalRevenue(Money::GBP(0));
 
         $this->em->persist($farm);
         $this->em->flush();

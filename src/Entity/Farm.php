@@ -9,6 +9,7 @@ use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use JMS\Serializer\Annotation\Accessor;
 use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\FarmRepository")
@@ -20,6 +21,7 @@ class Farm implements FarmWriteModel {
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
      * @Accessor(getter="getIdAsString")
+     * @Groups({"elastica"})
      */
     protected $id;
 
@@ -37,6 +39,7 @@ class Farm implements FarmWriteModel {
      * @Accessor(getter="getLocationAsString")
      * @ORM\Column(type="point", nullable=true)
      * @var Point
+     * @Groups({"elastica"})
      */
     protected $location;
 
@@ -46,6 +49,15 @@ class Farm implements FarmWriteModel {
      * @ORM\JoinColumn(name="preview_image_id", referencedColumnName="id")
      */
     protected $previewImage;
+
+    /**
+     * One Farm has One Preview Image.
+     * @var User
+     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="farmer_id", referencedColumnName="id")
+     */
+    protected $farmer;
+
 
     /**
      * Total Number of Sales
@@ -62,7 +74,8 @@ class Farm implements FarmWriteModel {
     /**
      * Total Revenue
      * @var Money
-     * @ORM\Column(type="string", name="total_revenue")
+     * @ORM\Embedded(class="\Money\Money")
+     * @Exclude
      */
     protected $totalRevenue;
 
@@ -74,6 +87,10 @@ class Farm implements FarmWriteModel {
 
     public function getId() {
         return $this->id;
+    }
+
+    public function getIdAsString() {
+        return $this->id->toString();
     }
 
     public function getName() {
@@ -126,17 +143,21 @@ class Farm implements FarmWriteModel {
 
     public static function registerFarm(
         UuidInterface $id,
-        string $name
+        string $name,
+        string $email,
+        User $farmer
     ): FarmWriteModel
     {
 
         $farm = new self();
         $farm->id = $id;
         $farm->name = $name;
+        $farm->email = $email;
+        $farm->farmer = $farmer;
 
-        $farm->totalRevenue = 0;
         $farm->totalCustomers = 0;
         $farm->totalRevenue = Money::GBP(0);
+        $farm->totalSales = 0;
 
         return $farm;
     }

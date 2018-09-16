@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\FarmMarket\Event;
 
+use App\Entity\User;
 use App\FarmMarket\Model\EmailAddress;
 use App\FarmMarket\Model\Farm\FarmId;
 use Symfony\Component\EventDispatcher\Event;
@@ -25,6 +26,10 @@ class FarmWasRegistered extends Event
      * @var string
      */
     private $emailAddress;
+    /**
+     * @var User
+     */
+    private $farmer;
 
     /**
      * FarmWasRegistered constructor.
@@ -32,11 +37,12 @@ class FarmWasRegistered extends Event
      * @param string $name
      * @param string $emailAddress
      */
-    public function __construct(FarmId $farmId, string $name, string $emailAddress)
+    public function __construct(FarmId $farmId, User $farmer, string $name, string $emailAddress)
     {
         $this->farmId = $farmId;
         $this->name = $name;
         $this->emailAddress = $emailAddress;
+        $this->farmer = $farmer;
     }
 
     /**
@@ -61,5 +67,13 @@ class FarmWasRegistered extends Event
     public function getEmailAddress(): string
     {
         return $this->emailAddress;
+    }
+
+    /**
+     * @return User
+     */
+    public function getFarmer(): User
+    {
+        return $this->farmer;
     }
 }

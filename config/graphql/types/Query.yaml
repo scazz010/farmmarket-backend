@@ -24,14 +24,21 @@ Mutation:
   type: object
   config:
     fields:
+      RegisterFarm:
+        type: Farm!
+        resolve: "@=mutation('register_farm', [args['name'], args['postCode']])"
+        args:
+          name:
+            type: "String!"
+          postCode:
+            type: "String!"
+
       singleUpload:
         type: UploadedFile!
         resolve: "@=mutation('upload_image', [args['file']])"
         args:
           file:
             type: ImageUpload!
-          farmId:
-            type: String!
 
       updateFarmPreviewImage:
         type: UploadedFile!
