@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
 use Prooph\ServiceBus\CommandBus;
 use Symfony\Component\Intl\Exception\NotImplementedException;
+use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 
@@ -39,11 +40,11 @@ class A0UserProvider implements JWTUserProviderInterface
     }
 
     public function loadUserByJWT($jwt) {
-         $data = $this->auth0Service->getUserProfileByA0UID($jwt->token,$jwt->sub);
-
          /** @var User $user */
          $user = $this->userManager->findUserBy(['id' => $jwt->sub]);
          if (!$user) {
+             $data = $this->auth0Service->getUserProfileByA0UID($jwt->token, $jwt->sub);
+
              $registerFarmerCommand = RegisterFarmerCommand::withData(
                  $jwt->sub,
                  $data['given_name'],

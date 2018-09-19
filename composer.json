@@ -26,6 +26,7 @@
         "prooph/pdo-event-store": "^1.9",
         "prooph/service-bus-symfony-bundle": "^0.7.0",
         "ramsey/uuid-doctrine": "dev-master",
+        "symfony/cache": "*",
         "symfony/console": "*",
         "symfony/flex": "^1.1",
         "symfony/framework-bundle": "*",
@@ -38,6 +39,9 @@
         "zendframework/zend-validator": "^2.10"
     },
     "require-dev": {
+        "codeception/codeception": "^2.4",
+        "codeception/specify": "^1.1",
+        "doctrine/doctrine-fixtures-bundle": "^3.0",
         "overblog/graphiql-bundle": "^0.1.1",
         "symfony/dotenv": "*",
         "symfony/maker-bundle": "^1.6"

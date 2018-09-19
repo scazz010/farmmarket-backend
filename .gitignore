@@ -7,3 +7,7 @@
 ###< symfony/framework-bundle ###
 /public/images
 /.idea/
+
+###> phpunit/phpunit ###
+/phpunit.xml
+###< phpunit/phpunit ###

@@ -2,3 +2,8 @@ framework:
     test: true
     session:
         storage_id: session.storage.mock_file
+
+doctrine:
+    dbal:
+        url: 'mysql://default:secret@mysql:3306/test'
+        driver: pdo_mysql

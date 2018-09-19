@@ -6,7 +6,6 @@ namespace App\FarmMarket\Model\Farm\Command;
 
 use App\Geo\Point;
 use Assert\Assertion;
-use PhpParser\Node\Scalar\String_;
 use Prooph\Common\Messaging\Command;
 use Prooph\Common\Messaging\PayloadConstructable;
 use Prooph\Common\Messaging\PayloadTrait;
@@ -18,12 +17,17 @@ final class RegisterFarm extends Command implements PayloadConstructable
 {
     use PayloadTrait;
 
+    public function messageType(): string
+    {
+        return self::TYPE_COMMAND;
+    }
+
     public static function withData(
         string $farmId,
         string $farmerId,
         string $name,
         string $email,
-        Point $location
+        ?Point $location
     ): RegisterFarm
     {
         return new self([
@@ -63,16 +67,13 @@ final class RegisterFarm extends Command implements PayloadConstructable
 
     protected function setPayload(array $payload): void
     {
-        Assertion::keyExists($payload, 'farm_id');
         Assertion::uuid($payload['farm_id']);
+        Assertion::notBlank($payload['farmer_id']);
+        Assertion::notBlank($payload['name']);
 
-        Assertion::keyExists($payload, 'farmer_id');
-
-        Assertion::keyExists($payload, 'name');
-        Assertion::string($payload['name']);
-        Assertion::keyExists($payload, 'email');
         $validator = new EmailAddressValidator();
         Assertion::true($validator->isValid($payload['email']));
+
         $this->payload = $payload;
     }
 }
