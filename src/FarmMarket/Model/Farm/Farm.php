@@ -13,7 +13,6 @@ use Prooph\EventSourcing\AggregateRoot;
 
 use App\FarmMarket\Model\EmailAddress;
 use App\FarmMarket\Model\Farm\Event\FarmWasRegistered;
-use Symfony\Component\HttpFoundation\File\File;
 
 class Farm extends AggregateRoot
 {
@@ -36,20 +35,18 @@ class Farm extends AggregateRoot
         string $userId,
         $name,
         EmailAddress $email,
-        Point $location=null
-    ) : Farm
-    {
+        Point $location = null
+    ): Farm {
         $self = new self();
 
-        $self->recordThat(FarmWasRegistered::withData(
-            $farmId,
-            $userId,
-            $name,
-            $email
-        ));
+        $self->recordThat(
+            FarmWasRegistered::withData($farmId, $userId, $name, $email)
+        );
 
         if ($location) {
-            $self->recordThat(FarmLocationWasUpdated::withData($farmId, $location));
+            $self->recordThat(
+                FarmLocationWasUpdated::withData($farmId, $location)
+            );
         }
 
         return $self;
@@ -57,7 +54,12 @@ class Farm extends AggregateRoot
 
     public function updatePreviewImage(Image $previewImage)
     {
-        $this->recordThat(FarmPreviewImageWasUpdated::toImage($this->farmId, $previewImage->id()));
+        $this->recordThat(
+            FarmPreviewImageWasUpdated::toImage(
+                $this->farmId,
+                $previewImage->id()
+            )
+        );
     }
 
     protected function whenFarmWasRegistered(FarmWasRegistered $event)
@@ -67,14 +69,15 @@ class Farm extends AggregateRoot
         $this->email = $event->emailAddress();
     }
 
-    protected function whenFarmLocationWasUpdated(FarmLocationWasUpdated $event)
-    {
+    protected function whenFarmLocationWasUpdated(
+        FarmLocationWasUpdated $event
+    ) {
         $this->location = $event->location();
     }
 
-    protected function whenFarmPreviewImageWasUpdated(FarmPreviewImageWasUpdated $event)
-    {
-
+    protected function whenFarmPreviewImageWasUpdated(
+        FarmPreviewImageWasUpdated $event
+    ) {
     }
 
     protected function aggregateId(): string
@@ -85,18 +88,21 @@ class Farm extends AggregateRoot
     protected function apply(AggregateChanged $e): void
     {
         $handler = $this->determineEventHandlerMethodFor($e);
-        if (! method_exists($this, $handler)) {
-            throw new \RuntimeException(sprintf(
-                'Missing event handler method %s for aggregate root %s',
-                $handler,
-                get_class($this)
-            ));
+        if (!method_exists($this, $handler)) {
+            throw new \RuntimeException(
+                sprintf(
+                    'Missing event handler method %s for aggregate root %s',
+                    $handler,
+                    get_class($this)
+                )
+            );
         }
-        $this->{$handler}($e);
+        $this->$handler($e);
     }
 
-    protected function determineEventHandlerMethodFor(AggregateChanged $e): string
-    {
+    protected function determineEventHandlerMethodFor(
+        AggregateChanged $e
+    ): string {
         return 'when' . implode(array_slice(explode('\\', get_class($e)), -1));
     }
 }

@@ -21,10 +21,12 @@ class RegisterFarmTest extends \Codeception\Test\Unit
     /** @var \Codeception\Module $symfony */
     private $symfony;
 
-    public function __construct(?string $name = null, array $data = [], string $dataName = '')
-    {
+    public function __construct(
+        ?string $name = null,
+        array $data = [],
+        string $dataName = ''
+    ) {
         parent::__construct($name, $data, $dataName);
-
     }
 
     protected function _before()
@@ -39,22 +41,28 @@ class RegisterFarmTest extends \Codeception\Test\Unit
     // tests
     public function testICanRegisterAFarm()
     {
-        $userId  = $this->createUser();
+        $userId = $this->createUser();
 
         $farmId = Uuid::uuid4();
         $location = new Point(51.600661700009, -0.97846689679276);
 
-        $registerFarmCommand = RegisterFarm::withData($farmId, $userId, 'Test Farm', 'test@example.com', $location);
+        $registerFarmCommand = RegisterFarm::withData(
+            $farmId,
+            $userId,
+            'Test Farm',
+            'test@example.com',
+            $location
+        );
 
         /** @var CommandBus $commandBus */
-        $commandBus = $this->symfony->grabService('prooph_service_bus.farm_market_command_bus');
+        $commandBus = $this->symfony->grabService(
+            'prooph_service_bus.farm_market_command_bus'
+        );
         $commandBus->dispatch($registerFarmCommand);
 
         /*
          * Test event was persisted
          */
-
-
 
         /*
          * Test read model was updated
@@ -68,40 +76,62 @@ class RegisterFarmTest extends \Codeception\Test\Unit
 
     public function testVariantsAreProtected()
     {
-        $userId  = $this->createUser();
+        $userId = $this->createUser();
 
-        $this->specify("FarmId is a valid Uuid", function() use ($userId) {
+        $this->specify("FarmId is a valid Uuid", function () use ($userId) {
             try {
-                RegisterFarm::withData('', $userId->toString(), 'Test Farm', 'test@rand.com', null);
+                RegisterFarm::withData(
+                    '',
+                    $userId->toString(),
+                    'Test Farm',
+                    'test@rand.com',
+                    null
+                );
                 $this->assertTrue(false);
             } catch (\Assert\InvalidArgumentException $e) {
                 $this->assertTrue(true);
             }
         });
 
-        $this->specify("Farm Name is required", function() use ($userId) {
+        $this->specify("Farm Name is required", function () use ($userId) {
             try {
-                RegisterFarm::withData(Uuid::uuid4(), $userId->toString(), '', 'test@rand.com', null);
+                RegisterFarm::withData(
+                    Uuid::uuid4(),
+                    $userId->toString(),
+                    '',
+                    'test@rand.com',
+                    null
+                );
                 $this->assertTrue(false);
             } catch (\Assert\InvalidArgumentException $e) {
                 $this->assertTrue(true);
             }
         });
 
-
-        $this->specify("Farm email is valid", function() use ($userId) {
+        $this->specify("Farm email is valid", function () use ($userId) {
             try {
-                RegisterFarm::withData(Uuid::uuid4(), $userId->toString(), 'Test Farm', 'testrand.com', null);
+                RegisterFarm::withData(
+                    Uuid::uuid4(),
+                    $userId->toString(),
+                    'Test Farm',
+                    'testrand.com',
+                    null
+                );
                 $this->assertTrue(false);
             } catch (\Assert\InvalidArgumentException $e) {
                 $this->assertTrue(true);
             }
         });
 
-
-        $this->specify("Farmer ID is required", function() use ($userId) {
+        $this->specify("Farmer ID is required", function () use ($userId) {
             try {
-                RegisterFarm::withData(Uuid::uuid4(), '', 'Test Farm', 'test@rand.com', null);
+                RegisterFarm::withData(
+                    Uuid::uuid4(),
+                    '',
+                    'Test Farm',
+                    'test@rand.com',
+                    null
+                );
                 $this->assertTrue(false);
             } catch (\Assert\InvalidArgumentException $e) {
                 $this->assertTrue(true);
@@ -109,16 +139,19 @@ class RegisterFarmTest extends \Codeception\Test\Unit
         });
     }
 
-    protected function createUser($givenName="sammy", $familyName="carr", $email=null)
-    {
+    protected function createUser(
+        $givenName = "sammy",
+        $familyName = "carr",
+        $email = null
+    ) {
         $id = Uuid::uuid4();
 
         $this->tester->haveInRepository(User::class, [
             'id' => $id,
             'givenName' => $givenName,
             'familyName' => $familyName,
-            'username' => $givenName.$familyName,
-            'email' => $email ?: $givenName.'@'.$familyName.'.com'
+            'username' => $givenName . $familyName,
+            'email' => $email ?: $givenName . '@' . $familyName . '.com'
         ]);
 
         return $id;

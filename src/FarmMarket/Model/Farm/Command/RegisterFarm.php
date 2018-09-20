@@ -17,19 +17,13 @@ final class RegisterFarm extends Command implements PayloadConstructable
 {
     use PayloadTrait;
 
-    public function messageType(): string
-    {
-        return self::TYPE_COMMAND;
-    }
-
     public static function withData(
         string $farmId,
         string $farmerId,
         string $name,
         string $email,
         ?Point $location
-    ): RegisterFarm
-    {
+    ): RegisterFarm {
         return new self([
             'farm_id' => $farmId,
             'farmer_id' => $farmerId,
@@ -39,13 +33,12 @@ final class RegisterFarm extends Command implements PayloadConstructable
         ]);
     }
 
-
     public function farmId(): FarmId
     {
         return FarmId::fromString($this->payload['farm_id']);
     }
 
-    public function farmerId(): String
+    public function farmerId(): string
     {
         return $this->payload['farmer_id'];
     }
@@ -60,7 +53,7 @@ final class RegisterFarm extends Command implements PayloadConstructable
         return EmailAddress::fromString($this->payload['email']);
     }
 
-    public function location(): Point
+    public function location(): ?Point
     {
         return $this->payload['location'];
     }

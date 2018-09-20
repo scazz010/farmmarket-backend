@@ -34,11 +34,16 @@ class FarmWasRegistered extends Event
     /**
      * FarmWasRegistered constructor.
      * @param FarmId $farmId
+     * @param User $farmer
      * @param string $name
      * @param string $emailAddress
      */
-    public function __construct(FarmId $farmId, User $farmer, string $name, string $emailAddress)
-    {
+    public function __construct(
+        FarmId $farmId,
+        User $farmer,
+        string $name,
+        string $emailAddress
+    ) {
         $this->farmId = $farmId;
         $this->name = $name;
         $this->emailAddress = $emailAddress;

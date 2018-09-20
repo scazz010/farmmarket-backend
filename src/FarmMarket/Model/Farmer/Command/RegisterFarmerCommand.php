@@ -11,7 +11,8 @@ use Prooph\Common\Messaging\PayloadConstructable;
 use Prooph\Common\Messaging\PayloadTrait;
 use Zend\Validator\EmailAddress as EmailAddressValidator;
 
-final class RegisterFarmerCommand extends Command implements PayloadConstructable
+final class RegisterFarmerCommand extends Command
+    implements PayloadConstructable
 {
     use PayloadTrait;
 
@@ -20,8 +21,7 @@ final class RegisterFarmerCommand extends Command implements PayloadConstructabl
         string $givenName,
         string $familyName,
         string $email
-    ): RegisterFarmerCommand
-    {
+    ): RegisterFarmerCommand {
         return new self([
             'user_id' => $userId,
             'given_name' => $givenName,
@@ -30,20 +30,24 @@ final class RegisterFarmerCommand extends Command implements PayloadConstructabl
         ]);
     }
 
-    public function userId() : String {
+    public function userId(): string
+    {
         return $this->payload['user_id'];
     }
 
-    public function givenName() : String {
+    public function givenName(): string
+    {
         return $this->payload['given_name'];
     }
 
-    public function familyName() : String {
+    public function familyName(): string
+    {
         return $this->payload['family_name'];
     }
 
-    public function email() : EmailAddress {
-        return EmailAddress::fromString($this->payload['email_address']);
+    public function email(): EmailAddress
+    {
+        return EmailAddress::fromString($this->payload['email']);
     }
 
     protected function setPayload(array $payload): void
@@ -56,5 +60,4 @@ final class RegisterFarmerCommand extends Command implements PayloadConstructabl
 
         $this->payload = $payload;
     }
-
 }

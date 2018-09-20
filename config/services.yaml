@@ -39,9 +39,13 @@ services:
 
     Prooph\EventStore\EventStore: ~
 
-    App\FarmMarket\Model\Farm\Handler\RegisterFarmHandler:
-      tags:
-        - { name: 'prooph_service_bus.farm_market_command_bus.route_target', message_detection: true }
+    App\FarmMarket\Model\Farm\Handler\:
+        resource: '../src/FarmMarket/Model/Farm/Handler/*Handler.php'
+        tags: [{ name: 'prooph_service_bus.farm_market_command_bus.route_target', message_detection: true }]
+
+    App\FarmMarket\Model\Farmer\Handler\:
+        resource: '../src/FarmMarket/Model/Farmer/Handler/*Handler.php'
+        tags: [{ name: 'prooph_service_bus.farm_market_command_bus.route_target', message_detection: true }]
 
     App\FarmMarket\Model\Image\Handler\UploadImageHandler:
       tags:

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\FarmMarket\Model\Farmer\FarmerWriteModel;
 use FOS\UserBundle\Model\User as FOSUBUser;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Currency;
@@ -11,9 +12,8 @@ use Money\Money;
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="App\Repository\FarmerRepository")
  */
-class User extends FOSUBUser
+class User extends FOSUBUser implements FarmerWriteModel
 {
-
     /**
      * @var \Ramsey\Uuid\UuidInterface
      * @ORM\Id
@@ -37,11 +37,11 @@ class User extends FOSUBUser
      */
     private $farm;
 
-
     /**
      * @return mixed
      */
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
     }
 
@@ -54,14 +54,6 @@ class User extends FOSUBUser
     }
 
     /**
-     * @param mixed $givenName
-     */
-    public function setGivenName($givenName): void
-    {
-        $this->givenName = $givenName;
-    }
-
-    /**
      * @return mixed
      */
     public function getFamilyName()
@@ -69,16 +61,25 @@ class User extends FOSUBUser
         return $this->familyName;
     }
 
-    /**
-     * @param mixed $familyName
-     */
-    public function setFamilyName($familyName): void
-    {
-        $this->familyName = $familyName;
-    }
-
     public function getFarm(): ?Farm
     {
         return $this->farm;
+    }
+
+    public static function registerFarmer(
+        string $id,
+        string $givenName,
+        string $familyName,
+        string $email
+    ): User {
+        /** @var User $farmer */
+        $farmer = new self();
+        $farmer->id = $id;
+        $farmer->familyName = $familyName;
+        $farmer->givenName = $givenName;
+        $farmer->email = $email;
+        $farmer->username = $email;
+
+        return $farmer;
     }
 }
